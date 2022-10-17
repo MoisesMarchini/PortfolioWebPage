@@ -5,16 +5,16 @@ let itemWidth = 0;
 const carouselItems = document.querySelectorAll('.carousel__item');
 const carouselWrapper = document.querySelector('.portfolio__carousel__wrapper');
 const totalCarouselItems = carouselItems.length - 1;
+let isScrolling;
 
 const onScrollStop = callback => {
-    let isScrolling;
     carouselWrapper.addEventListener(
         'scroll',
         e => {
             clearTimeout(isScrolling);
             isScrolling = setTimeout(() => {
                 callback();
-            }, 150);
+            }, 70);
         },
         false
     );
@@ -43,6 +43,8 @@ onScrollStop(() => {
 carouselIndicators.forEach((indicator, indicatorIndex) => {
     indicator.addEventListener('click', () => {
         currentItem = indicatorIndex;
+
+        onScrollStop;
         SetIndicatorActive();
         ScrollCarrousel();
     })
@@ -50,8 +52,9 @@ carouselIndicators.forEach((indicator, indicatorIndex) => {
 carouselItems.forEach((item, indexId) => {
 
     item.addEventListener('click', () => {
-
         currentItem = indexId;
+
+        onScrollStop;
         SetIndicatorActive();
         ScrollCarrousel();
     })
@@ -60,7 +63,7 @@ function ScrollCarrousel() {
     carouselItems.forEach(item => item.classList.remove('active'));
     carouselItems[currentItem].classList.add('active');
     carouselItems[currentItem].scrollIntoView({
-        block: "nearest",
+        block: "center",
         inline: "center",
         behavior: "smooth"
     });
@@ -77,4 +80,3 @@ function SetIndicatorActive() {
 function GetItemWidth() {
     itemWidth = carouselItems[0].scrollWidth;
 }
-console.log('carousel.js loaded');
